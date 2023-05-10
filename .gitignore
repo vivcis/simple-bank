@@ -7,7 +7,7 @@
 /build
 
 # environmental-variables
-.env
+app.env
 
 # misc
 .DS_Store
