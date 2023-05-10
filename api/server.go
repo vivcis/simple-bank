@@ -18,27 +18,6 @@ type Server struct {
 	tokenMaker token.Maker
 }
 
-// NewServer creates a new HTTP server and setup routing.
-//func NewServer(store db.Store) *Server {
-//	server := &Server{store: store}
-//	router := gin.Default()
-//
-//	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-//		v.RegisterValidation("currency", validCurrency)
-//	}
-//
-//	router.POST("/users", server.createUser)
-//
-//	router.POST("/accounts", server.createAccount)
-//	router.GET("/accounts/:id", server.getAccount)
-//	router.GET("/accounts", server.listAccounts)
-//	router.POST("/transfers", server.createTransfer)
-//	//router.GET("/transfers/:id", server.getTransfer)
-//
-//	server.router = router
-//	return server
-//}
-
 // NewServer creates a new HTTP server and set up routing.
 func NewServer(config util.Config, store db.Store) (*Server, error) {
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
@@ -67,7 +46,7 @@ func (server *Server) setupRouter() {
 	router := gin.Default()
 
 	router.POST("/users", server.createUser)
-	//router.POST("/users/login", server.loginUser)
+	router.POST("/users/login", server.loginUser)
 	//router.POST("/tokens/renew_access", server.renewAccessToken)
 
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
